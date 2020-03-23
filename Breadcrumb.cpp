@@ -1,8 +1,8 @@
 
 #include "Breadcrumb.h"
 
-Breadcrumb::Breadcrumb(int x, int y, bool stale) {
-   // TODO
+Breadcrumb::Breadcrumb(int x, int y, bool stale): x(x), y(y), stale(stale) {
+   
 }
 
 Breadcrumb::~Breadcrumb() {
@@ -10,20 +10,17 @@ Breadcrumb::~Breadcrumb() {
 }
 
 int Breadcrumb::getX() {
-   // TODO
-   return 0;
+   return x;
 }
 
 int Breadcrumb::getY() {
-   // TODO
-   return 0;
+   return y;
 }
 
 bool Breadcrumb::isStale() {
-   // TODO
-   return false;
+   return stale;
 }
 
 void Breadcrumb::setStale(bool stale) {
-   // TODO
+   this -> stale = stale;
 }
