@@ -27,10 +27,12 @@ int main(int argc, char** argv) {
 
     // Load Maze from stdin
     Maze maze;
+    std::cout << "TEST - MAZE IN" << std::endl;
     readMazeStdin(maze);
 
     // Solve using MazeSolver
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
+    std::cout << "TEST - SOLVE" << std::endl;
     MazeSolver* solver = new MazeSolver();
     Trail* solution = nullptr;
     solver->solve(maze);
@@ -46,14 +48,22 @@ int main(int argc, char** argv) {
 
 void readMazeStdin(Maze maze) {
     // ASSUME THE MAZE IS A FIXED SIZE (20X20).
-
-    // TODO
+    for (int i = 0; i < MAZE_DIM ; i++) {
+        for (int j = 0; j < MAZE_DIM; j++) {
+            std::cin >> maze[i][j];
+        }
+    }
 }
 
-
 void printMazeStdout(Maze maze, Trail* solution) {
-    // TODO
-    std::cout << "TODO" << std::endl;
+    // TODO: Add solution
+    for (int i = 0; i < MAZE_DIM; i++){
+        for (int j = 0; j < MAZE_DIM; j++)
+        {
+            std::cout << maze[i][j];
+        }
+        std::cout << std::endl;
+    }
 }
 
 void testBreadcrumb() {
@@ -73,7 +83,7 @@ void testBreadcrumb() {
 }
 
 void testTrail() {
-    std::cout << "TESTING TRAIL" << std::endl;
+    std::cout << std::endl << "TESTING TRAIL" << std::endl;
 
     // Make a simple trail, should be empty size
     Trail* trail = new Trail();

@@ -6,6 +6,8 @@
 #define WALL        '='
 #define OPEN        '.'
 #define ROUTE       '*'
+#define START       'S'
+#define END         'E'
 
 #define MAZE_DIM                20
 #define TRAIL_ARRAY_MAX_SIZE    (MAZE_DIM * MAZE_DIM)
