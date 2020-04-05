@@ -2,7 +2,6 @@
 #include "Breadcrumb.h"
 
 Breadcrumb::Breadcrumb(int x, int y, bool stale): x(x), y(y), stale(stale) {
-   
 }
 
 Breadcrumb::~Breadcrumb() {

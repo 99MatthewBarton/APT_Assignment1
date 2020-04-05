@@ -3,7 +3,7 @@
 
 
 Trail::Trail() {
-   Breadcrumb * breadcrumbs [TRAIL_ARRAY_MAX_SIZE];
+   Breadcrumb * breadcrumbs [TRAIL_ARRAY_MAX_SIZE] = {nullptr};
    int length = 0;
 }
 
@@ -12,7 +12,7 @@ Trail::~Trail() {
 }
 
 int Trail::size() {
-   return length;
+   return length - 1;
 }
 
 Breadcrumb* Trail::getPtr(int i) {
@@ -20,13 +20,16 @@ Breadcrumb* Trail::getPtr(int i) {
 }
 
 void Trail::addCopy(Breadcrumb* t) {
-   breadcrumbs[length] = t;
-   length++;
+   if (!contains(t->getX(), t->getY())) {
+
+      breadcrumbs[length] = t;
+      length++;
+   }
 }
 
 bool Trail::contains(int x, int y) {
    for (int i = 0; i < length; i++) {
-      if (breadcrumbs[i] -> getX() == x && breadcrumbs[i] -> getY() == y) {
+      if (breadcrumbs[i]->getX() == x && breadcrumbs[i]->getY() == y) {
          return true;
       }
    }

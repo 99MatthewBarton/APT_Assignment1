@@ -44,8 +44,9 @@ private:
    /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
    /*                                           */
 
-   // Current coordinates in the maze (y, x)
-   int location[2];
+   // Current coordinates in the maze
+   int x;
+   int y;
 };
 
 #endif // COSC_ASS_ONE_PARTICLE_FILTER
