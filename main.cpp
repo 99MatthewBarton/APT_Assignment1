@@ -57,6 +57,15 @@ void readMazeStdin(Maze maze) {
 
 void printMazeStdout(Maze maze, Trail* solution) {
     // TODO: Add solution
+   for (int i = 0; i < solution->size(); i++) {
+      Breadcrumb* currentCrumb = solution->getPtr(solution->size()-i);
+      if (!currentCrumb->isStale()) {
+         int changeX = currentCrumb->getX();
+         int changeY = currentCrumb->getY();
+         maze[changeY][changeX] = ROUTE;
+      }
+   }
+
     for (int i = 0; i < MAZE_DIM; i++){
         for (int j = 0; j < MAZE_DIM; j++)
         {

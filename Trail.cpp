@@ -21,7 +21,6 @@ Breadcrumb* Trail::getPtr(int i) {
 
 void Trail::addCopy(Breadcrumb* t) {
    if (!contains(t->getX(), t->getY())) {
-
       breadcrumbs[length] = t;
       length++;
    }

@@ -2,6 +2,7 @@
 #include "Breadcrumb.h"
 
 Breadcrumb::Breadcrumb(int x, int y, bool stale): x(x), y(y), stale(stale) {
+   std::cout << "TEST - BREADCRUMB x: " << x << " y: " << y << std::endl;
 }
 
 Breadcrumb::~Breadcrumb() {

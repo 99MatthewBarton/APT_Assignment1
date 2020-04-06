@@ -10,6 +10,7 @@ MazeSolver::~MazeSolver() {
     delete solution;
 }
 
+// TODO: put into header
 // Searches maze for target and return it's coordinates in an array
 void find(Maze maze, char target, int* x, int* y);
 
@@ -33,17 +34,17 @@ void MazeSolver::solve(Maze maze) {
          solution->addCopy(new Breadcrumb(x, y, false));
       }
 
+      // Backtracks when there are no empty places to move
       if (!move(maze, solution, &x, &y)) {
-         // Backtracks when there are no empty places to move
          backtrack(maze, solution, &x, &y);
       }
-      else {std::cout << "TEST - x: " << x << " y: " << y << std::endl;}
+      // else {std::cout << "TEST - x: " << x << " y: " << y << std::endl;}
    }
    std::cout << "TEST - I DID IT" << std::endl;
 }
 
 Trail* MazeSolver::getSolution() {
-   // TODO
+   // TODO         
    return solution;
 }
 
@@ -60,25 +61,26 @@ void find(Maze maze, char target, int* x, int* y) {
 
 bool move(Maze maze, Trail* solution, int* x, int* y) {
 // Puts the character in each cardinal direction of the location in an array
-   char north =   maze[*y]   [*x+1];
-   char east =    maze[*y+1] [*x];
-   char south =   maze[*y]   [*x-1];
-   char west =    maze[*y-1] [*x];
+   char north =   maze[*y-1]  [*x];
+   char east =    maze[*y]    [*x+1];
+   char south =   maze[*y+1]  [*x];
+   char west =    maze[*y]    [*x-1];
    char directions[] = {north, east, south, west};
 
    // Puts movement required for each cardinal direction in a 2D array
-   int moveNorth[] =   {0, 1};
+   int moveNorth[] =   {0, -1};
    int moveEast[] =    {1, 0};
-   int moveSouth[] =   {0, -1};
+   int moveSouth[] =   {0, 1};
    int moveWest[] =    {-1, 0};
    int* moveDirections[] = {moveNorth, moveEast, moveSouth, moveWest};
 
    // Checks if each cardinal direction is either empty or the end of the maze
    // If that spot also doesn't contain an breadcrumb then move the location to the spot
-   // TODO: TIDY MOVEDIRECTIONS
+   // TODO: tidy moveDirections
+   // TODO: Sometimes won't move up (prefers to move down)
    for (int i = 0; i < 4; i++){
-      int moveX = *x + moveDirections[i][1];
-      int moveY = *y + moveDirections[i][0];
+      int moveX = *x + moveDirections[i][0];
+      int moveY = *y + moveDirections[i][1];
       // std::cout << "TEST - x: " << moveDirections[i][1] << " y: " << moveDirections[i][0]<< std::endl;
 
       if ((directions[i] == OPEN 
@@ -95,12 +97,19 @@ bool move(Maze maze, Trail* solution, int* x, int* y) {
 
 // TODO
 void backtrack(Maze maze, Trail* solution, int* x, int* y) {
-   Breadcrumb* currentCrumb = solution->getPtr(solution->size());
-   Breadcrumb* previousCrumb = solution->getPtr(solution->size() - 1);
+   int size = solution->size();
+   Breadcrumb* currentCrumb = solution->getPtr(size);
+   Breadcrumb* previousCrumb = solution->getPtr(size - 1);
+
+   for (int i = 0; currentCrumb->isStale(); i++) {
+      currentCrumb = solution->getPtr(size - i);
+      previousCrumb = solution->getPtr(size - i -1);
+   }
 
    if (!currentCrumb->isStale()) {
       currentCrumb->setStale(true);
       *x = previousCrumb->getX();
       *y = previousCrumb->getY();
+      std::cout << "TEST - BACKTRACK x: " << *x << " y: " << *y << std::endl;
    }
 }
