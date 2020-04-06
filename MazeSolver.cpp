@@ -16,7 +16,7 @@ void find(Maze maze, char target, int* x, int* y);
 
 // Checks in order of north, east, south, west and moves to the first open non-breadcrumbed space
 // Returns true if there is a valid location, false if there is not
-bool move(Maze maze, Trail* solution, int* x, int* y);
+void move(Maze maze, Trail* solution, int* x, int* y);
 
 // Called there are no empty spots to move to
 // Retraces it's step over previous breadcrumbs and marks them as stale
@@ -24,7 +24,7 @@ bool move(Maze maze, Trail* solution, int* x, int* y);
 void backtrack(Maze maze, Trail* solution, int* x, int* y);
 
 void MazeSolver::solve(Maze maze) {
-   // Find the start location in the maze
+   // Find and move to the start location in the maze
    find(maze, START, &x, &y);
    
    // Move until the exit is found
@@ -34,17 +34,12 @@ void MazeSolver::solve(Maze maze) {
          solution->addCopy(new Breadcrumb(x, y, false));
       }
 
-      // Backtracks when there are no empty places to move
-      if (!move(maze, solution, &x, &y)) {
-         backtrack(maze, solution, &x, &y);
-      }
-      // else {std::cout << "TEST - x: " << x << " y: " << y << std::endl;}
+      move(maze, solution, &x, &y);
    }
-   std::cout << "TEST - I DID IT" << std::endl;
 }
 
-Trail* MazeSolver::getSolution() {
-   // TODO         
+// TODO
+Trail* MazeSolver::getSolution() {      
    return solution;
 }
 
@@ -59,7 +54,7 @@ void find(Maze maze, char target, int* x, int* y) {
    }
 }
 
-bool move(Maze maze, Trail* solution, int* x, int* y) {
+void move(Maze maze, Trail* solution, int* x, int* y) {
 // Puts the character in each cardinal direction of the location in an array
    char north =   maze[*y-1]  [*x];
    char east =    maze[*y]    [*x+1];
@@ -77,29 +72,23 @@ bool move(Maze maze, Trail* solution, int* x, int* y) {
    // Checks if each cardinal direction is either empty or the end of the maze
    // If that spot also doesn't contain an breadcrumb then move the location to the spot
    // TODO: tidy moveDirections
-   // TODO: Sometimes won't move up (prefers to move down)
    for (int i = 0; i < 4; i++){
       int moveX = *x + moveDirections[i][0];
       int moveY = *y + moveDirections[i][1];
-      // std::cout << "TEST - x: " << moveDirections[i][1] << " y: " << moveDirections[i][0]<< std::endl;
 
       if ((directions[i] == OPEN 
       || directions[i] == END) 
       && !solution->contains(moveX, moveY)) {
-         // std::cout << "TEST - MOVE x: " << moveDirections[i][1] << " y: " << moveDirections[i][0] << std::endl;
          *x = moveX;     
          *y = moveY;
-         return true;
+         return;
       }
    }
-   return false;
-}
 
-// TODO
-void backtrack(Maze maze, Trail* solution, int* x, int* y) {
+   // Set the current breadcrumb to stale then moves to the last non-stale breadcrumb
    int size = solution->size();
-   Breadcrumb* currentCrumb = solution->getPtr(size);
-   Breadcrumb* previousCrumb = solution->getPtr(size - 1);
+   Breadcrumb* currentCrumb =    solution->getPtr(size);
+   Breadcrumb* previousCrumb =   solution->getPtr(size - 1);
 
    for (int i = 0; currentCrumb->isStale(); i++) {
       currentCrumb = solution->getPtr(size - i);
@@ -110,6 +99,5 @@ void backtrack(Maze maze, Trail* solution, int* x, int* y) {
       currentCrumb->setStale(true);
       *x = previousCrumb->getX();
       *y = previousCrumb->getY();
-      std::cout << "TEST - BACKTRACK x: " << *x << " y: " << *y << std::endl;
    }
 }
