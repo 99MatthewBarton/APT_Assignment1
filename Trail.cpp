@@ -8,7 +8,9 @@ Trail::Trail() {
 }
 
 Trail::~Trail() {
-   // TODO
+   for (Breadcrumb* breadcrumb : breadcrumbs) {
+      delete breadcrumb;
+   }
 }
 
 int Trail::size() {
