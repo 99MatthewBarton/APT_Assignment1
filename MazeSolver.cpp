@@ -32,7 +32,6 @@ void MazeSolver::solve(Maze maze) {
       if (!solution->contains(x, y)) {
          solution->addCopy(new Breadcrumb(x, y, false));
       }
-
       move(maze, solution, &x, &y);
    }
 }
@@ -41,6 +40,7 @@ Trail* MazeSolver::getSolution() {
    Trail* solutionCopy = new Trail;
    for (int i = 0; i <= solution->size(); i <  i++) {
       Breadcrumb* crumb = solution->getPtr(i);
+
       if (!crumb->isStale()) {
          solutionCopy->addCopy(new Breadcrumb(crumb->getX(), crumb->getY(), crumb->isStale()));
       }
@@ -97,8 +97,8 @@ void move(Maze maze, Trail* solution, int* x, int* y) {
    Breadcrumb* previousCrumb =   solution->getPtr(size - 1);
 
    for (int i = 0; currentCrumb->isStale(); i++) {
-      currentCrumb = solution->getPtr(size - i);
-      previousCrumb = solution->getPtr(size - i -1);
+      currentCrumb =    solution->getPtr(size - i);
+      previousCrumb =   solution->getPtr(size - i -1);
    }
 
    if (!currentCrumb->isStale()) {
