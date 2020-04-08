@@ -6,6 +6,8 @@
 #include "Trail.h"
 #include "Types.h"
 
+#include <array>
+
 class MazeSolver {
 public:
 
@@ -41,6 +43,10 @@ private:
    /*                                           */
    /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
    /*                                           */
+
+   // Current coordinates in the maze
+   int x;
+   int y;
 };
 
 #endif // COSC_ASS_ONE_PARTICLE_FILTER
