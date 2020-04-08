@@ -39,8 +39,8 @@ void MazeSolver::solve(Maze maze) {
 
 Trail* MazeSolver::getSolution() {
    Trail* solutionCopy = new Trail;
-   for (int i = solution->size(); i >= 0; i <  i--) {
-      Breadcrumb* crumb = solution->getPtr(solution->size() - i);
+   for (int i = 0; i <= solution->size(); i <  i++) {
+      Breadcrumb* crumb = solution->getPtr(i);
       if (!crumb->isStale()) {
          solutionCopy->addCopy(new Breadcrumb(crumb->getX(), crumb->getY(), crumb->isStale()));
       }
