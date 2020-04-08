@@ -10,7 +10,6 @@ MazeSolver::~MazeSolver() {
     delete solution;
 }
 
-// TODO: put into header
 // Searches maze for target and return it's coordinates in an array
 void find(Maze maze, char target, int* x, int* y);
 
@@ -38,9 +37,17 @@ void MazeSolver::solve(Maze maze) {
    }
 }
 
-// TODO
-Trail* MazeSolver::getSolution() {      
-   return solution;
+Trail* MazeSolver::getSolution() {
+   Trail* solutionCopy = new Trail;
+   for (int i = solution->size(); i >= 0; i <  i--) {
+      Breadcrumb* crumb = solution->getPtr(solution->size() - i);
+      if (!crumb->isStale()) {
+         solutionCopy->addCopy(new Breadcrumb(crumb->getX(), crumb->getY(), crumb->isStale()));
+      }
+   }
+
+
+   return solutionCopy;
 }
 
 void find(Maze maze, char target, int* x, int* y) {
@@ -71,7 +78,6 @@ void move(Maze maze, Trail* solution, int* x, int* y) {
 
    // Checks if each cardinal direction is either empty or the end of the maze
    // If that spot also doesn't contain an breadcrumb then move the location to the spot
-   // TODO: tidy moveDirections
    for (int i = 0; i < 4; i++){
       int moveX = *x + moveDirections[i][0];
       int moveY = *y + moveDirections[i][1];
